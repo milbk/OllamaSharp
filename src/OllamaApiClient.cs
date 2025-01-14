@@ -239,7 +239,8 @@ public class OllamaApiClient : IOllamaApiClient, IChatClient, IEmbeddingGenerato
 	public async Task<bool> IsBolbExistsAsync(string digest, CancellationToken cancellationToken = default)
 	{
 		using var requestMessage = new HttpRequestMessage(HttpMethod.Head, "api/blobs/" + digest);
-		using var response = await SendToOllamaAsync(requestMessage, null, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+		requestMessage.ApplyCustomHeaders(DefaultRequestHeaders, null);
+		var response = await _client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
 		return response.StatusCode == HttpStatusCode.OK;
 	}
 

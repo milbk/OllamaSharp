@@ -6,9 +6,9 @@ namespace OllamaSharp.Models;
 
 /// <summary>
 /// Create a model from:
-/// * another model;
-/// * a safetensors directory; or
-/// * a GGUF file.
+/// another model;
+/// a safetensors directory; or
+/// a GGUF file.
 /// If you are creating a model from a safetensors directory or from a GGUF file,
 /// you must [create a blob] for each of the files and then use the file name and SHA256
 /// digest associated with each blob in the `files` field.
