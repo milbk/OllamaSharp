@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -223,6 +224,23 @@ public class OllamaApiClient : IOllamaApiClient, IChatClient, IEmbeddingGenerato
 		var data = await GetAsync<JsonNode>("api/version", cancellationToken).ConfigureAwait(false);
 		var versionString = data["version"]?.ToString() ?? throw new InvalidOperationException("Could not get version from response.");
 		return Version.Parse(versionString);
+	}
+
+	/// <inheritdoc />
+	public async Task PushBolbAsync(string digest, byte[] bytes, CancellationToken cancellationToken = default)
+	{
+		using var requestMessage = new HttpRequestMessage(HttpMethod.Post, "api/blobs/" + digest);
+		requestMessage.Content = new ByteArrayContent(bytes);
+		using var response = await SendToOllamaAsync(requestMessage, null, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+		response.EnsureSuccessStatusCode();
+	}
+
+	/// <inheritdoc />
+	public async Task<bool> IsBolbExistsAsync(string digest, CancellationToken cancellationToken = default)
+	{
+		using var requestMessage = new HttpRequestMessage(HttpMethod.Head, "api/blobs/" + digest);
+		using var response = await SendToOllamaAsync(requestMessage, null, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false);
+		return response.StatusCode == HttpStatusCode.OK;
 	}
 
 	private async IAsyncEnumerable<GenerateResponseStream?> GenerateCompletionAsync(GenerateRequest generateRequest, [EnumeratorCancellation] CancellationToken cancellationToken)
