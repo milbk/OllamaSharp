@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Microsoft.Extensions.AI;
 using NUnit.Framework;
 using OllamaSharp;
 
@@ -10,10 +9,8 @@ public class ChatTests
 	private readonly Uri _baseUri = new("http://localhost:11434");
 	private readonly string _model = "llama3.2:1b";
 
-#pragma warning disable NUnit1032
 	private OllamaApiClient _client = null!;
 	private Chat _chat = null!;
-#pragma warning restore NUnit1032
 
 	[SetUp]
 	public async Task Setup()
@@ -29,7 +26,7 @@ public class ChatTests
 	[TearDown]
 	public Task Teardown()
 	{
-		((IChatClient?)_client)?.Dispose();
+		_client?.Dispose();
 		return Task.CompletedTask;
 	}
 

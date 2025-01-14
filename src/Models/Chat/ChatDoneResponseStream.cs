@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using OllamaSharp.Constants;
 
 namespace OllamaSharp.Models.Chat;
 
@@ -10,42 +11,42 @@ public class ChatDoneResponseStream : ChatResponseStream
 	/// <summary>
 	/// The time spent generating the response
 	/// </summary>
-	[JsonPropertyName("total_duration")]
+	[JsonPropertyName(Application.TotalDuration)]
 	public long TotalDuration { get; set; }
 
 	/// <summary>
 	/// The time spent in nanoseconds loading the model
 	/// </summary>
-	[JsonPropertyName("load_duration")]
+	[JsonPropertyName(Application.LoadDuration)]
 	public long LoadDuration { get; set; }
 
 	/// <summary>
 	/// The number of tokens in the prompt
 	/// </summary>
-	[JsonPropertyName("prompt_eval_count")]
+	[JsonPropertyName(Application.PromptEvalCount)]
 	public int PromptEvalCount { get; set; }
 
 	/// <summary>
 	/// The time spent in nanoseconds evaluating the prompt
 	/// </summary>
-	[JsonPropertyName("prompt_eval_duration")]
+	[JsonPropertyName(Application.PromptEvalDuration)]
 	public long PromptEvalDuration { get; set; }
 
 	/// <summary>
 	/// The number of tokens in the response
 	/// </summary>
-	[JsonPropertyName("eval_count")]
+	[JsonPropertyName(Application.EvalCount)]
 	public int EvalCount { get; set; }
 
 	/// <summary>
 	/// The time in nanoseconds spent generating the response
 	/// </summary>
-	[JsonPropertyName("eval_duration")]
+	[JsonPropertyName(Application.EvalDuration)]
 	public long EvalDuration { get; set; }
 
 	/// <summary>
 	/// The reason for the completion of the chat
 	/// </summary>
-	[JsonPropertyName("done_reason")]
+	[JsonPropertyName(Application.DoneReason)]
 	public string? DoneReason { get; set; }
 }

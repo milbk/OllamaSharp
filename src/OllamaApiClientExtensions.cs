@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using OllamaSharp.Models;
 
 namespace OllamaSharp;
@@ -87,7 +84,7 @@ public static class OllamaApiClientExtensions
 			Prompt = prompt,
 			Model = client.SelectedModel,
 			Stream = true,
-			Context = context?.Context ?? []
+			Context = context?.Context
 		};
 		return client.GenerateAsync(request, cancellationToken);
 	}
